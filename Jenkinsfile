@@ -16,5 +16,13 @@ pipeline {
         git(url: 'https://github.com/mihnatenko/training-ci', branch: 'master', credentialsId: 'a89bd138-4e55-4f7c-83ca-14f4604fd57c')
       }
     }
+    stage('Run App') {
+      steps {
+        dir(path: 'flask-app') {
+          sh 'docker-compose up -d --build'
+        }
+
+      }
+    }
   }
 }
