@@ -16,7 +16,7 @@ pipeline {
         git(url: 'https://github.com/mihnatenko/training-ci', branch: 'master', credentialsId: 'a89bd138-4e55-4f7c-83ca-14f4604fd57c')
       }
     }
-    stage('Run App') {
+    stage('Run Tests') {
       steps {
         dir(path: 'flask-app') {
           sh '''docker-compose down
@@ -26,6 +26,8 @@ docker-compose down
 '''
         }
 
+        junit(testResults: 'flask-app/junit-report/report.xml', allowEmptyResults: true)
+        sh 'sudo rm -rf flask-app/junit-report'
       }
     }
   }
