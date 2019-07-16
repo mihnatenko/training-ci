@@ -19,7 +19,11 @@ pipeline {
     stage('Run App') {
       steps {
         dir(path: 'flask-app') {
-          sh 'docker-compose up -d --build'
+          sh '''docker-compose down
+docker-compose build flask-app
+docker-compose run flask-app pytest -v --junit-xml=/var/opt/junit-report/report.xml
+docker-compose down
+'''
         }
 
       }
